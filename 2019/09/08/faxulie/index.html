@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/9 | My first blogs</title>
+  <title>faxulie | My first blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="My first blogs">
-<meta property="og:url" content="http://yoursite.com/archives/2019/09/index.html">
+  <meta name="description" content="题目： wakeup()函数用法wakeup()是用在反序列化操作中。unserialize()会检查存在一个wakeup()方法。如果存在，则先会调用wakeup()方法。__wakeup()是用在反序列化操作中。unserialize()会检查存在一个wakeup()方法。如果存在，则先会调用__wakeup()方法。测试结果： 序列化后为O:4:”xctf”:1:{s:4:”flag”;s:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="faxulie">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/faxulie/index.html">
 <meta property="og:site_name" content="My first blogs">
+<meta property="og:description" content="题目： wakeup()函数用法wakeup()是用在反序列化操作中。unserialize()会检查存在一个wakeup()方法。如果存在，则先会调用wakeup()方法。__wakeup()是用在反序列化操作中。unserialize()会检查存在一个wakeup()方法。如果存在，则先会调用__wakeup()方法。测试结果： 序列化后为O:4:”xctf”:1:{s:4:”flag”;s:">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-08T09:02:12.280Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="My first blogs">
+<meta name="twitter:title" content="faxulie">
+<meta name="twitter:description" content="题目： wakeup()函数用法wakeup()是用在反序列化操作中。unserialize()会检查存在一个wakeup()方法。如果存在，则先会调用wakeup()方法。__wakeup()是用在反序列化操作中。unserialize()会检查存在一个wakeup()方法。如果存在，则先会调用__wakeup()方法。测试结果： 序列化后为O:4:”xctf”:1:{s:4:”flag”;s:">
   
     <link rel="alternative" href="/atom.xml" title="My first blogs" type="application/atom+xml">
   
@@ -150,37 +154,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-faxulie" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/08/faxulie/" class="archive-article-date">
-  	<time datetime="2019-09-08T08:56:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/08/faxulie/">faxulie</a>
+    <h1 class="article-title" itemprop="name">
+      faxulie
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2019/09/08/faxulie/" class="archive-article-date">
+  	<time datetime="2019-09-08T08:56:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>题目：</p>
+<p>wakeup()函数用法<br><strong>wakeup()是用在反序列化操作中。unserialize()会检查存在一个</strong>wakeup()方法。如果存在，则先会调用<strong>wakeup()方法。<br>__wakeup()是用在反序列化操作中。unserialize()会检查存在一个</strong>wakeup()方法。如果存在，则先会调用__wakeup()方法。<br>测试结果：</p>
+<p>序列化后为O:4:”xctf”:1:{s:4:”flag”;s:3:”111”;}</p>
+<p>O代表结构类型为：类:4表示类名长度:接着是类名:属性（成员）个数<br>大括号内分别是：属性名类型;长度:名称:值类型:长度:值</p>
+<p><strong>wakeup()漏洞<br>__wakeup()漏洞就是与整个属性个数值有关。当序列化字符串表示对象属性个数的值大于真实个数的属性时就会跳过</strong>wakeup的执行。<br>如，我们提交O:4:”xctf”:2:{s:4:”flag”;s:3:”111”;}，将其改为2，得到flag。</p>
+<p>了解序列化和serialize与unserialize函数的应用<br>    *<br>序列化数据，返回一个可存储的字符串，该函数有利于存储或传递PHP的值，同时不丢失其类型和结构<br>    *<br>serialize() 就是序列化一个数组或者对象什么的 吧他变成字符串的形式<br>    *<br>unserialize()就是把数据恢复</p>
+<p>小结：<br>1、了解序列化和反序列化<br>2、了解php反序列化和__wakeup漏洞的利用</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -193,17 +223,104 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/09/08/faxulie/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2013/12/02/frist/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Charon</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -226,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
