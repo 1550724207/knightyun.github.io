@@ -174,12 +174,14 @@
       
         <p>题目：</p>
 <p><img src="/image/web1.png" alt></p>
-<p>wakeup()函数用法<br><strong>wakeup()是用在反序列化操作中。unserialize()会检查存在一个</strong>wakeup()方法。如果存在，则先会调用<strong>wakeup()方法。<br>__wakeup()是用在反序列化操作中。unserialize()会检查存在一个</strong>wakeup()方法。如果存在，则先会调用__wakeup()方法。<br>测试结果：</p>
-<p>序列化后为O:4:”xctf”:1:{s:4:”flag”;s:3:”111”;}</p>
+<p>wakeup()函数用法<br><strong>wakeup()是用在反序列化操作中。unserialize()会检查存在一个</strong>wakeup()方法。如果存在，则先会调用__wakeup()方法。</p>
+<p>测试结果：<br><img src="/image/2.png" alt><br>序列化后为O:4:”xctf”:1:{s:4:”flag”;s:3:”111”;}</p>
 <p>O代表结构类型为：类:4表示类名长度:接着是类名:属性（成员）个数<br>大括号内分别是：属性名类型;长度:名称:值类型:长度:值</p>
 <p><strong>wakeup()漏洞<br>__wakeup()漏洞就是与整个属性个数值有关。当序列化字符串表示对象属性个数的值大于真实个数的属性时就会跳过</strong>wakeup的执行。<br>如，我们提交O:4:”xctf”:2:{s:4:”flag”;s:3:”111”;}，将其改为2，得到flag。</p>
-<p>了解序列化和serialize与unserialize函数的应用<br>    *<br>序列化数据，返回一个可存储的字符串，该函数有利于存储或传递PHP的值，同时不丢失其类型和结构<br>    *<br>serialize() 就是序列化一个数组或者对象什么的 吧他变成字符串的形式<br>    *<br>unserialize()就是把数据恢复</p>
-<p>小结：<br>1、了解序列化和反序列化<br>2、了解php反序列化和__wakeup漏洞的利用</p>
+<p>了解序列化和serialize与unserialize函数的应用</p>
+<pre><code>* 序列化数据，返回一个可存储的字符串，该函数有利于存储或传递PHP的值，同时不丢失其类型和结构
+* serialize() 就是序列化一个数组或者对象什么的 吧他变成字符串的形式
+* unserialize()就是把数据恢复</code></pre><p>小结：<br>    1、了解序列化和反序列化<br>    2、了解php反序列化和__wakeup漏洞的利用</p>
 
       
 
