@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/image/web1.png">
 <meta property="og:image" content="http://yoursite.com/image/2.png">
-<meta property="og:updated_time" content="2019-09-10T07:33:36.469Z">
+<meta property="og:updated_time" content="2019-09-10T09:48:00.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="faxulie">
 <meta name="twitter:description" content="题目：  wakeup()函数用法wakeup()是用在反序列化操作中。unserialize()会检查存在一个wakeup()方法。如果存在，则先会调用__wakeup()方法。 测试结果：序列化后为O:4:”xctf”:1:{s:4:”flag”;s:3:”111”;} O代表结构类型为：类:4表示类名长度:接着是类名:属性（成员）个数大括号内分别是：属性名类型;长度:名称:值类型:长度:值">
@@ -32,7 +32,7 @@
   <style type="text/css">
   
     #container.show {
-      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e,#00BFFF);
     }
   </style>
   
@@ -61,8 +61,6 @@
 			<ul>
 			
 				<li><a href="/">主页</a></li>
-	        
-				<li><a href="/tags/随笔/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -118,8 +116,6 @@
 			
 				
 			
-				
-			
 			
 			
 			<nav class="header-nav">
@@ -140,9 +136,7 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
-		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 100%"><a href="/">主页</a></li>
 		        
 				</ul>
 			</nav>
@@ -182,6 +176,8 @@
 <p>wakeup()函数用法<br><strong>wakeup()是用在反序列化操作中。unserialize()会检查存在一个</strong>wakeup()方法。如果存在，则先会调用__wakeup()方法。</p>
 <p>测试结果：<br><img src="/image/2.png" alt><br>序列化后为O:4:”xctf”:1:{s:4:”flag”;s:3:”111”;}</p>
 <p>O代表结构类型为：类:4表示类名长度:接着是类名:属性（成员）个数<br>大括号内分别是：属性名类型;长度:名称:值类型:长度:值</p>
+<a id="more"></a>
+
 <p><strong>wakeup()漏洞<br>__wakeup()漏洞就是与整个属性个数值有关。当序列化字符串表示对象属性个数的值大于真实个数的属性时就会跳过</strong>wakeup的执行。<br>如，我们提交O:4:”xctf”:2:{s:4:”flag”;s:3:”111”;}，将其改为2，得到flag。</p>
 <p>了解序列化和serialize与unserialize函数的应用</p>
 <pre><code>* 序列化数据，返回一个可存储的字符串，该函数有利于存储或传递PHP的值，同时不丢失其类型和结构
@@ -200,7 +196,7 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>十分感谢<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
                     
@@ -457,27 +453,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="https://www.baidu.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>百度</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="https://www.google.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>谷歌</a>
             </li>
           
         </ul>
