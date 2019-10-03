@@ -152,6 +152,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-level5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/03/level5/">level5</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/03/level5/" class="archive-article-date">
+  	<time datetime="2019-10-03T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先捋一下整体思路：构造泄漏libc的payload，通过这个payload的libc来获取程序中system函数和”/bin/sh”字符串的偏移，然后计算出函数的真实加载地址。 </p>
+<p>plt表和got表：<br>plt表：跳板，跳转到一个地址来加载libc库。文件中会对每个用到的函数分配一个plt函数<br>got表：经过plt表的跳转会跳转会在got表上写入地址，这个地址是函数调用的真实地址 </p>
+<p>泄漏原理：<br>system_addr-libc_system=puts_addr-libc_puts=libc的偏移量<br>system_addr=puts_addr+(libc_system-libc_puts) </p>
+        
+          <a class="article-more-a" href="/2019/10/03/level5/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">libc泄露</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/03/level5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-pwn-hello" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -453,11 +535,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+                <a href="javascript:void(0)" class="js-tag color3">-pwn -libc泄露</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">最大存水量</a>
+                <a href="javascript:void(0)" class="js-tag color5">-web -反序列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -465,7 +547,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">-web -反序列</a>
+                <a href="javascript:void(0)" class="js-tag color2">libc泄露</a>
               </li>
             
             <div class="clearfix"></div>
