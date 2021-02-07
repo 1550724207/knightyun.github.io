@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: -web -反序列 | Welcome to my blogs!</title>
+  <title>打造属于自己的搜索引擎(二) | Welcome to my blogs!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Welcome to my blogs!">
-<meta property="og:url" content="http://yoursite.com/tags/web-反序列/index.html">
+  <meta name="description" content="在前面中已经把爬取的数据存入到es，接下来就是进行前端和写es的分词规则和索引的步骤了（额，我是先创建django项目的）">
+<meta name="keywords" content="python,scrapy,es,django">
+<meta property="og:type" content="article">
+<meta property="og:title" content="打造属于自己的搜索引擎(二)">
+<meta property="og:url" content="http://yoursite.com/2021/02/04/打造属于自己的搜索引擎-二/index.html">
 <meta property="og:site_name" content="Welcome to my blogs!">
+<meta property="og:description" content="在前面中已经把爬取的数据存入到es，接下来就是进行前端和写es的分词规则和索引的步骤了（额，我是先创建django项目的）">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/image/dir2.png">
+<meta property="og:image" content="http://yoursite.com/image/pic02.png">
+<meta property="og:image" content="http://yoursite.com/image/pic01.png">
+<meta property="og:updated_time" content="2021-02-07T02:17:10.071Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome to my blogs!">
+<meta name="twitter:title" content="打造属于自己的搜索引擎(二)">
+<meta name="twitter:description" content="在前面中已经把爬取的数据存入到es，接下来就是进行前端和写es的分词规则和索引的步骤了（额，我是先创建django项目的）">
+<meta name="twitter:image" content="http://yoursite.com/image/dir2.png">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to my blogs!" type="application/atom+xml">
   
@@ -150,71 +159,212 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-打造属于自己的搜索引擎-二" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/08/faxulie/" class="archive-article-date">
-  	<time datetime="2019-09-08T08:56:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/08/faxulie/">web-反序列</a>
+    <h1 class="article-title" itemprop="name">
+      打造属于自己的搜索引擎(二)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2021/02/04/打造属于自己的搜索引擎-二/" class="archive-article-date">
+  	<time datetime="2021-02-04T12:32:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前面中已经把爬取的数据存入到es，接下来就是进行前端和写es的分词规则和索引的步骤了（额，我是先创建django项目的）</p>
+<a id="more"></a>
+
+<h4>创建django项目</h4>
+先给出我的项目目录结构吧
+
+<p><img src="/image/dir2.png" alt></p>
+<h4>一、写es分词和索引规则</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">response = client.search( </span><br><span class="line">            index = &quot;segmentfault&quot;,</span><br><span class="line">            body = &#123;</span><br><span class="line">                &quot;query&quot;:&#123;</span><br><span class="line">                    &quot;bool&quot;:&#123;</span><br><span class="line">                        &quot;should&quot;: [</span><br><span class="line">                          &#123;&quot;multi_match&quot;: &#123;</span><br><span class="line">                            &quot;query&quot;: key_words,#这里很关键就是查询的语句，即es会根据你的分词进行查询</span><br><span class="line">                            &quot;fields&quot;: [&quot;title&quot;, &quot;content&quot;]#设置需要进行分词的字段</span><br><span class="line">                          &#125;&#125;,</span><br><span class="line">                          &#123;&quot;fuzzy&quot;: &#123;</span><br><span class="line">                            &quot;title&quot;: &#123;</span><br><span class="line">                                &quot;value&quot;: key_words,</span><br><span class="line">                                &quot;fuzziness&quot;: 2</span><br><span class="line">                            &#125;</span><br><span class="line">                          &#125;&#125;</span><br><span class="line">                        ]</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;from&quot;:(page-1)*10,#这里是es分片的，类似我们常说的分页</span><br><span class="line">                &quot;size&quot;:10,</span><br><span class="line">                &quot;highlight&quot;:&#123;</span><br><span class="line">                    &quot;pre_tags&quot;:[&quot;&lt;span class=&apos;keyWord&apos;&gt;&quot;], #可以指定关键词使用的html标签</span><br><span class="line">                    &quot;post_tags&quot;:[&quot;&lt;/span&gt;&quot;],</span><br><span class="line">                    &quot;fields&quot;:&#123;</span><br><span class="line">                        &quot;title&quot;:&#123;&#125;,</span><br><span class="line">                        &quot;content&quot;:&#123;&#125;,</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+<strong><p>对数据进行处理</p></strong>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">for hit in response[&quot;hits&quot;][&quot;hits&quot;]: # 对查询的数据进行处理</span><br><span class="line">           hit_dict = &#123;&#125;</span><br><span class="line">           if &quot;title&quot; in hit[&quot;highlight&quot;]:</span><br><span class="line">               hit_dict[&quot;title&quot;] = &quot;&quot;.join(hit[&quot;highlight&quot;][&quot;title&quot;]) # 获取title</span><br><span class="line">           else:</span><br><span class="line">               hit_dict[&quot;title&quot;] = hit[&quot;_source&quot;][&quot;title&quot;]</span><br><span class="line">           if &quot;content&quot; in hit[&quot;highlight&quot;]:</span><br><span class="line">               #texts = hit[&quot;highlight&quot;][&quot;content&quot;]</span><br><span class="line">               #t1=texts[:500]</span><br><span class="line">               #print(t1)</span><br><span class="line"></span><br><span class="line">               hit_dict[&quot;content&quot;] = &quot;&quot;.join(hit[&quot;highlight&quot;][&quot;content&quot;])[:500]# 获取内容,取前500个</span><br><span class="line">           else:</span><br><span class="line">               hit_dict[&quot;content&quot;] = hit[&quot;_source&quot;][&quot;content&quot;][:500]</span><br><span class="line"></span><br><span class="line">           hit_dict[&quot;time&quot;] = hit[&quot;_source&quot;][&quot;time&quot;] # 获取发布时间</span><br><span class="line">           hit_dict[&quot;url&quot;] = hit[&quot;_source&quot;][&quot;url&quot;] # 获取跳转链接</span><br><span class="line">           hit_dict[&quot;score&quot;] = hit[&quot;_score&quot;] # 获取分数</span><br><span class="line"></span><br><span class="line">           hit_list.append(hit_dict)</span><br></pre></td></tr></table></figure>
+<h4>二、编写前端页面并进行数据的接入工作</h4>
+<p>这里主要是对urls和views这两个文件进行操作</p>
+<strong><p>urls</p></strong>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url</span><br><span class="line">from django.contrib import admin</span><br><span class="line">from django.views.generic import TemplateView</span><br><span class="line">from search.views import SearchSuggest, SearchView,IndexView</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line">    url(r&apos;^$&apos;, IndexView.as_view(), name=&apos;index&apos;),</span><br><span class="line">    url(r&apos;^suggest/$&apos;, SearchSuggest.as_view(), name=&quot;suggest&quot;),</span><br><span class="line">    url(r&apos;^search/$&apos;, SearchView.as_view(), name=&quot;search&quot;),</span><br><span class="line"></span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<strong><p>views.py</p></strong>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.views.generic.base import View</span><br><span class="line">from search.models import ArticleType</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from elasticsearch import Elasticsearch</span><br><span class="line">from datetime import datetime</span><br><span class="line">import redis</span><br><span class="line"></span><br><span class="line">client = Elasticsearch(hosts=[&quot;127.0.0.1&quot;])</span><br><span class="line"></span><br><span class="line">redis_cli = redis.StrictRedis()</span><br><span class="line">class IndexView(View):</span><br><span class="line">    def get(self,request):</span><br><span class="line">        topn_search = redis_cli.zrevrangebyscore(&quot;search_keywords_set&quot;, &quot;+inf&quot;, &quot;-inf&quot;, start=0, num=5)</span><br><span class="line"></span><br><span class="line">        return render(request,&quot;index.html&quot;,&#123;&quot;topn_search&quot;: topn_search&#125;)</span><br><span class="line"></span><br><span class="line"># Create your views here.</span><br><span class="line">class SearchSuggest(View):</span><br><span class="line">    def get(self, request):</span><br><span class="line">        key_words = request.GET.get(&apos;s&apos;, &apos;&apos;)</span><br><span class="line">        re_datas = []</span><br><span class="line">        if key_words:</span><br><span class="line">            s = ArticleType.search()</span><br><span class="line">            s = s.suggest(&apos;my_suggest&apos;, key_words, completion=&#123;</span><br><span class="line">                &quot;field&quot;:&quot;suggest&quot;,&quot;fuzzy&quot;: &#123;</span><br><span class="line">                    &quot;fuzziness&quot;: 2</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;size&quot;: 10</span><br><span class="line">            &#125;)</span><br><span class="line">            suggestions = s.execute_suggest()</span><br><span class="line">            for match in suggestions.my_suggest[0].options:</span><br><span class="line">                source = match._source</span><br><span class="line">                re_datas.append(source[&quot;title&quot;]) # 获取查询结果title值</span><br><span class="line">        return HttpResponse(json.dumps(re_datas),content_type=&quot;application/json&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class SearchView(View):</span><br><span class="line">    def get(self,request):</span><br><span class="line">        key_words = request.GET.get(&quot;q&quot;,&quot;&quot;)</span><br><span class="line">        #s_type = request.GET.get(&quot;s_type&quot;,&quot;article&quot;)</span><br><span class="line">        # 热门搜索设置和排序</span><br><span class="line">        redis_cli.zincrby(&quot;search_keywords_set&quot;, 1, key_words)  # redis最新版本参数坑</span><br><span class="line">        topn_search = redis_cli.zrevrangebyscore(&quot;search_keywords_set&quot;, &quot;+inf&quot;, &quot;-inf&quot;, start=0, num=5)</span><br><span class="line">        page = request.GET.get(&quot;p&quot;,&quot;1&quot;) # 获取分页数据</span><br><span class="line">        try:</span><br><span class="line">            page = int(page) # 进行转换</span><br><span class="line">        except:</span><br><span class="line">            page = 1</span><br><span class="line">        pm_count = redis_cli.get(&quot;pm_count&quot;)  # 获取爬虫数量</span><br><span class="line">        start_time = datetime.now() # 获取查询开始时time</span><br><span class="line">        response = client.search( # 允许我们编写kibana查询语句</span><br><span class="line">            index = &quot;segmentfault&quot;,</span><br><span class="line">            body = &#123;</span><br><span class="line">                &quot;query&quot;:&#123;</span><br><span class="line">                    &quot;bool&quot;:&#123;</span><br><span class="line">                        &quot;should&quot;: [</span><br><span class="line">                          &#123;&quot;multi_match&quot;: &#123;</span><br><span class="line">                            &quot;query&quot;: key_words,</span><br><span class="line">                            &quot;fields&quot;: [&quot;title&quot;, &quot;content&quot;]</span><br><span class="line">                          &#125;&#125;,</span><br><span class="line">                          &#123;&quot;fuzzy&quot;: &#123;</span><br><span class="line">                            &quot;title&quot;: &#123;</span><br><span class="line">                                &quot;value&quot;: key_words,</span><br><span class="line">                                &quot;fuzziness&quot;: 2</span><br><span class="line">                            &#125;</span><br><span class="line">                          &#125;&#125;</span><br><span class="line">                        ]</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;from&quot;:(page-1)*10,</span><br><span class="line">                &quot;size&quot;:10,</span><br><span class="line">                &quot;highlight&quot;:&#123;</span><br><span class="line">                    &quot;pre_tags&quot;:[&quot;&lt;span class=&apos;keyWord&apos;&gt;&quot;], #可以指定关键词使用的html标签</span><br><span class="line">                    &quot;post_tags&quot;:[&quot;&lt;/span&gt;&quot;],</span><br><span class="line">                    &quot;fields&quot;:&#123;</span><br><span class="line">                        &quot;title&quot;:&#123;&#125;,</span><br><span class="line">                        &quot;content&quot;:&#123;&#125;,</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        end_time = datetime.now()</span><br><span class="line">        last_seconds = (end_time - start_time) # 获取查询时间</span><br><span class="line">        total_nums = response[&quot;hits&quot;][&quot;total&quot;] # 获取查询到的值</span><br><span class="line">        if (page%10) &gt; 0: # 计算页码</span><br><span class="line">            page_nums = int(total_nums/10) +1</span><br><span class="line">        else:</span><br><span class="line">            page_nums = int(total_nums/10)</span><br><span class="line"></span><br><span class="line">        hit_list = []</span><br><span class="line">        for hit in response[&quot;hits&quot;][&quot;hits&quot;]: # 对查询的数据进行处理</span><br><span class="line">            hit_dict = &#123;&#125;</span><br><span class="line">            if &quot;title&quot; in hit[&quot;highlight&quot;]:</span><br><span class="line">                hit_dict[&quot;title&quot;] = &quot;&quot;.join(hit[&quot;highlight&quot;][&quot;title&quot;]) # 获取title</span><br><span class="line">            else:</span><br><span class="line">                hit_dict[&quot;title&quot;] = hit[&quot;_source&quot;][&quot;title&quot;]</span><br><span class="line">            if &quot;content&quot; in hit[&quot;highlight&quot;]:</span><br><span class="line">                #texts = hit[&quot;highlight&quot;][&quot;content&quot;]</span><br><span class="line">                #t1=texts[:500]</span><br><span class="line">                #print(t1)</span><br><span class="line"></span><br><span class="line">                hit_dict[&quot;content&quot;] = &quot;&quot;.join(hit[&quot;highlight&quot;][&quot;content&quot;])[:500]# 获取内容,取前500个</span><br><span class="line">            else:</span><br><span class="line">                hit_dict[&quot;content&quot;] = hit[&quot;_source&quot;][&quot;content&quot;][:500]</span><br><span class="line"></span><br><span class="line">            hit_dict[&quot;time&quot;] = hit[&quot;_source&quot;][&quot;time&quot;] # 获取发布时间</span><br><span class="line">            hit_dict[&quot;url&quot;] = hit[&quot;_source&quot;][&quot;url&quot;] # 获取跳转链接</span><br><span class="line">            hit_dict[&quot;score&quot;] = hit[&quot;_score&quot;] # 获取分数</span><br><span class="line"></span><br><span class="line">            hit_list.append(hit_dict)</span><br><span class="line"></span><br><span class="line">        return render(request,&quot;result.html&quot;,&#123;&quot;page&quot;:page,</span><br><span class="line">                                            &quot;all_hits&quot;:hit_list,</span><br><span class="line">                                            &quot;key_words&quot;:key_words,</span><br><span class="line">                                            &quot;total_nums&quot;:total_nums,</span><br><span class="line">                                            &quot;page_nums&quot;:page_nums,</span><br><span class="line">                                            &quot;last_seconds&quot;:last_seconds,</span><br><span class="line">                                            &quot;pm_count&quot;: pm_count,</span><br><span class="line">                                            &quot;topn_search&quot;: topn_search&#125;) # 将后端获取的数据传递给前端页面</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对了，在search的目录先也要创建一个modes把前面es_type的代码拷过去就行了（作用跟之前的一样）</p>
+<strong><p>前端的页面如下：</p></strong>
+搜索页面
+
+<p><img src="/image/pic02.png" alt></p>
+<p>结果页面</p>
+<p><img src="/image/pic01.png" alt></p>
+<p>额，前端的源码就不在这展示了，感觉好费（就是懒…）到时候我会上传GitHub，这里主要是把步骤，关键的部分提一下<br><strong><p>通过传入的数据用js实现我的搜索</p></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var searchArr;</span><br><span class="line">  //定义一个search的，判断浏览器有无数据存储（搜索历史）</span><br><span class="line">  if(localStorage.search)&#123;</span><br><span class="line">  //如果有，转换成 数组的形式存放到searchArr的数组里（localStorage以字符串的形式存储，所以要把它转换成数组的形式）</span><br><span class="line">      searchArr= localStorage.search.split(&quot;,&quot;)</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">  //如果没有，则定义searchArr为一个空的数组</span><br><span class="line">      searchArr = [];</span><br><span class="line">  &#125;</span><br><span class="line">MapSearchArr();</span><br><span class="line"></span><br><span class="line">  function add_search()&#123;</span><br><span class="line">      var val = $(&quot;.searchInput&quot;).val();</span><br><span class="line">      if (val.length&gt;=2)&#123;</span><br><span class="line">          //点击搜索按钮时，去重</span><br><span class="line">          KillRepeat(val);</span><br><span class="line">          //去重后把数组存储到浏览器localStorage</span><br><span class="line">          localStorage.search = searchArr;</span><br><span class="line">          //然后再把搜索内容显示出来</span><br><span class="line">          MapSearchArr();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      window.location.href=search_url+&apos;?q=&apos;+val+&quot;&amp;s_type=&quot;+$(&quot;.searchItem.current&quot;).attr(&apos;data-type&apos;)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function MapSearchArr()&#123;</span><br><span class="line">      var tmpHtml = &quot;&quot;;</span><br><span class="line">      var arrLen = 0</span><br><span class="line">      if (searchArr.length &gt;= 5)&#123;</span><br><span class="line">          arrLen = 5</span><br><span class="line">      &#125;else &#123;</span><br><span class="line">          arrLen = searchArr.length</span><br><span class="line">      &#125;</span><br><span class="line">      for (var i=0;i&lt;arrLen;i++)&#123;</span><br><span class="line">          tmpHtml += &apos;&lt;a href=&quot;&apos;+search_url+&apos;?q=&apos;+searchArr[i]+&apos;&quot;&gt;&apos;+searchArr[i]+&apos;&lt;/a&gt;&apos;</span><br><span class="line">      &#125;</span><br><span class="line">      $(&quot;.mysearch .all-search&quot;).html(tmpHtml);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><p>通过redis的zrevrangebyscore函数计算分值的方式，以分值高的为热门来实现热门搜索</p></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class IndexView(View):</span><br><span class="line">    def get(self,request):</span><br><span class="line">        topn_search = redis_cli.zrevrangebyscore(&quot;search_keywords_set&quot;, &quot;+inf&quot;, &quot;-inf&quot;, start=0, num=5)</span><br><span class="line"></span><br><span class="line">        return render(request,&quot;index.html&quot;,&#123;&quot;topn_search&quot;: topn_search&#125;)</span><br><span class="line">  # 热门搜索设置和排序</span><br><span class="line">        redis_cli.zincrby(&quot;search_keywords_set&quot;, 1, key_words)  # redis最新版本参数坑</span><br><span class="line">        topn_search = redis_cli.zrevrangebyscore(&quot;search_keywords_set&quot;, &quot;+inf&quot;, &quot;-inf&quot;, start=0, num=5)</span><br></pre></td></tr></table></figure>
+
+<p><strong><p>总结</p></strong></p>
+<p>熟悉了打造搜索引擎的流程及相关的知识，对request、response、post、get等知识有了一定的理解.不过这只是爬取了一个网站的信息,后期的话有了第一个可以慢慢来增加都行.</p>
+<strong><p>效果展示</p></strong>
+<iframe height="100" width="500" src="/image/search.mp4"></iframe>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>十分感谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">-web -反序列</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
         		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
+      		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/WEB//" class="article-tag-list-link color4">WEB</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">scrapy</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">es</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
         		</li>
       		
 		</ul>
 	</div>
 
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/02/04/打造属于自己的搜索引擎-二/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2021/02/04/打造属于自己的搜索引擎/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">打造属于自己的搜索引擎（一）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -245,9 +395,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
