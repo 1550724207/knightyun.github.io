@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: mysql | Welcome to my blogs!</title>
+  <title>Web-爆破 | Welcome to my blogs!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Welcome to my blogs!">
-<meta property="og:url" content="http://yoursite.com/tags/mysql/index.html">
+  <meta name="description" content="“百度杯”CTF比赛 2017 二月场——Web-爆破-1">
+<meta name="keywords" content="php弱类型绕过,超全局变量,file_get_contents()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web-爆破">
+<meta property="og:url" content="http://yoursite.com/2021/03/18/Web-爆破/index.html">
 <meta property="og:site_name" content="Welcome to my blogs!">
+<meta property="og:description" content="“百度杯”CTF比赛 2017 二月场——Web-爆破-1">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/image/Web-%E7%88%86%E7%A0%B4/1.png">
+<meta property="og:image" content="http://yoursite.com/image/Web-%E7%88%86%E7%A0%B4/2.png">
+<meta property="og:image" content="http://yoursite.com/image/Web-%E7%88%86%E7%A0%B4/3.png">
+<meta property="og:updated_time" content="2021-03-18T13:35:22.532Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome to my blogs!">
+<meta name="twitter:title" content="Web-爆破">
+<meta name="twitter:description" content="“百度杯”CTF比赛 2017 二月场——Web-爆破-1">
+<meta name="twitter:image" content="http://yoursite.com/image/Web-%E7%88%86%E7%A0%B4/1.png">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to my blogs!" type="application/atom+xml">
   
@@ -150,64 +159,235 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Web-爆破" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/" class="archive-article-date">
-  	<time datetime="2020-10-31T15:47:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-31</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/31/记一次ssrf漏洞gopher对mysql的攻击/">记一次ssrf漏洞gopher对mysql的攻击</a>
+    <h1 class="article-title" itemprop="name">
+      Web-爆破
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2021/03/18/Web-爆破/" class="archive-article-date">
+  	<time datetime="2021-03-18T12:43:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2>“百度杯”CTF比赛 2017 二月场——Web-爆破-1</h2><a id="more"></a>
+<p>题目如下：</p>
+<p>题目提示:flag在变量</p>
+
+<p><img src="/image/Web-%E7%88%86%E7%A0%B4/1.png" alt></p>
+<p>提示说flag在变量里，看到var_dump(),$$a时,就猜测是<b>考察超全局变量GLOBALS </b>，然后想到　[php全局变量漏洞 $GLOBALS漏洞预警]，<br>
+
+</p><p>所以就构造：<a href="http://8c262ae1cd78449e9ccdd89460a0fb9ca32af7e11aae45ee.changame.ichunqiu.com/?hello=GLOBALS" target="_blank" rel="noopener">http://8c262ae1cd78449e9ccdd89460a0fb9ca32af7e11aae45ee.changame.ichunqiu.com/?hello=GLOBALS</a></p><p></p>
+<p>$和$$的理解</p>
+<p>The $var (single dollar) is a normal variable with the name var that stores any value like string, integer, float, etc.</p>
+<p>The $$var (double dollar) is a reference variable that stores the value of the $variable inside it.</p>
+<p>运行一下这段代码就很好理解了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php  </span><br><span class="line">$x = &quot;abc&quot;;  </span><br><span class="line">$$x = 200;  </span><br><span class="line">echo $x.&quot;&lt;br/&gt;&quot;;  </span><br><span class="line">echo $$x.&quot;&lt;br/&gt;&quot;;  </span><br><span class="line">echo $abc;  </span><br><span class="line">?&gt;  </span><br></pre></td></tr></table></figure>
+<p>PHP 超级全局变量列表:$GLOBALS、$_SERVER、$_REQUEST、$_POST、$_GET、$_FILES、$_ENV、$_COOKIE、$_SESSION<br>
+都试了一遍</p>
+<h3>解题收获</h3>
+<ol>
+<li><p>可变变量：把一个变量的值作为一个变量的变量名<br>
+$$a = 'world';  相当于$$a=$hello=world<br>
+echo "$a $hello";?> 输出hello world</p>
+</li><li>
+GET方法和POST方法传值的区别：<br>
+使用get方式提交表单时，浏览器将各个表单字段元素及其数据按照url参数的方式附加在请求行的资源后面。使用get方式传递的数据量是有限的，一般限制在1K以下。<br>
+使用post方式时，浏览器把各表单字段元素及其数据作为HTTP消息的实体内容发送给web服务器，而不是作为url地址参数传递，因此，使用post方式，要比使用get方式大的多。<br>
+</li></ol>
+<br>
+<br>
+<h2>“百度杯”CTF比赛 2017 二月场——Web-爆破-2</h2>
+<p>题目如下：</p>
+<p>题目提示:flag不在变量</p>
+
+<p><img src="/image/Web-%E7%88%86%E7%A0%B4/2.png" alt></p>
+<p>根据提示，就没必要再变量上浪费时间了。既然不在变量上，题目中又出了file的字眼，考虑从文件上入手。</p>
+
+<p><b>方法一：</b></p>
+<p>使用file_get_contents() 函数，其作用为把整个文件读入一个字符串中。URL?hello=file_get_contents('flag.php')<br>
+'编码为%27，url中特殊符号编码可以避免歧义。</p>
+
+<p><b>方法二：</b></p>
+<p>?hello=file("flag.php")<br>
+file_get_contents() 函数把整个文件读入一个字符串中。<br>
+file() 函数把整个文件读入一个数组中。与 file_get_contents() 类似，不同的是file() 将文件作为一个数组返回。数组中的每个单元都是文件中相应的一行，包括换行符在内。如果失败，则返回 false。</p>
+<h3>解题收获</h3>
+<p>对file_get_contents(),file() 函数的区别有了解了一分</p>
+<br>
+<br>
+<h2>“百度杯”CTF比赛 2017 二月场——Web-爆破-3</h2>
+<p>题目如下：</p>
+<p>题目提示:额,没有别想p事</p>
+
+<p><img src="/image/Web-%E7%88%86%E7%A0%B4/3.png" alt></p>
+<p><b>直接上关键的部分：</b></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if($_SESSION[&apos;whoami&apos;]==($value[0].$value[1]) &amp;&amp; substr(md5($value),5,4)==0)&#123;</span><br><span class="line">  $_SESSION[&apos;nums&apos;]++;</span><br><span class="line">  $_SESSION[&apos;whoami&apos;] = $str_rands;</span><br><span class="line">  echo $str_rands;</span><br></pre></td></tr></table></figure>
+<p>Session中的num初始值为0，time为当前时间，whoami的初始值为ea。<br>
+120秒之后销毁会话。用str_rands随机生成2个字母，whoami需要等于我们传递的value值的前两位，并且value的md5值的第5为开始，长度为4的字符串==0，这样num++，whoami=str_rands，循环10次后，输出flag。 </p>
+<p>由于==为弱判断类型， <b>利用md5函数不能对数组进行处理，则可以用数组绕过</b>，md5()==0；<br>
+因此，构造payload?value[]=ea<br>
+接着构造payload 手工10次<br>
+第十次就可得到flag</p>
+<a href="http://0sec.com.cn/2018-04-26/" target="_blank" rel="noopener">关于php弱类型绕过参考链接 </a>
+<h3>解题收获</h3>
+<p>虽然做过这样的类型的题目,但到做题的时候还是有些不知道该怎么运用,这次过后应该会更熟练一点</p>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>十分感谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">php弱类型绕过</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ssrf</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">超全局变量</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">file_get_contents()</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2021/03/18/Web-爆破/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2021/03/16/2019强网杯upload/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">2019强网杯upload</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -238,9 +418,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
